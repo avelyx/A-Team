@@ -179,6 +179,7 @@ main { max-width: 960px; margin: 0 auto; padding: 1rem; }
 .lg.excursion { background: #d4af37; }
 .lg.start    { background: #009688; }
 .lg.route1 { width: 28px; height: 4px; border-radius: 2px; background: #1e6fbf; }
+.lg.route2 { width: 28px; height: 4px; border-radius: 2px; background: #c0392b; background-image: repeating-linear-gradient(90deg, #c0392b 0 6px, transparent 6px 10px); }
 
 .disclaimer {
   margin-top: .8rem;
