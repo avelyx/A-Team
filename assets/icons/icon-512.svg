@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0d3a5c"/>
+  <path d="M 50 350 Q 256 220 462 350 L 462 410 Q 256 310 50 410 Z" fill="#1e6fbf" opacity="0.6"/>
+  <path d="M 50 390 Q 256 270 462 390 L 462 440 Q 256 350 50 440 Z" fill="#1e6fbf"/>
+  <!-- Kanu -->
+  <ellipse cx="256" cy="256" rx="150" ry="38" fill="#e67e22" stroke="#8b4513" stroke-width="8"/>
+  <ellipse cx="256" cy="250" rx="134" ry="27" fill="#d4854a"/>
+  <!-- Paddel -->
+  <rect x="246" y="130" width="20" height="240" fill="#8b4513" transform="rotate(18 256 256)"/>
+  <ellipse cx="340" cy="146" rx="22" ry="44" fill="#8b4513"/>
+  <!-- Sterne -->
+  <circle cx="110" cy="110" r="8" fill="#fff"/>
+  <circle cx="400" cy="110" r="8" fill="#fff"/>
+  <circle cx="256" cy="70" r="11" fill="#fff"/>
+  <!-- Tanne Nord -->
+  <path d="M 90 200 L 75 230 L 85 230 L 68 260 L 82 260 L 60 295 L 120 295 L 98 260 L 112 260 L 95 230 L 105 230 Z" fill="#2d6a4f"/>
+  <path d="M 422 200 L 407 230 L 417 230 L 400 260 L 414 260 L 392 295 L 452 295 L 430 260 L 444 260 L 427 230 L 437 230 Z" fill="#2d6a4f"/>
+</svg>

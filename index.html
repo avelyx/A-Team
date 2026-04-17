@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d3a5c">
+  <title>Svartälven Kanutour · B43726</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/leaflet/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="brand">Svartälven · Kanutour</span>
+      <span class="booking">B43726</span>
+    </div>
+    <h1>Outdoorcamp Svartälven · Hällefors, Schweden</h1>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd-label">Noch bis zur Abreise</div>
+      <div class="cd-values"><span id="cd-d">–</span><em>T</em> <span id="cd-h">–</span><em>h</em> <span id="cd-m">–</span><em>min</em></div>
+      <div class="cd-start" id="cd-start"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" id="tabs">
+  <a href="#karte" role="tab" data-tab="karte" class="active">🗺️ Karte</a>
+  <a href="#anreise" role="tab" data-tab="anreise">🚗 Anreise</a>
+  <a href="#notfall" role="tab" data-tab="notfall">🆘 Notfall</a>
+  <a href="#packliste" role="tab" data-tab="packliste">🎒 Packliste</a>
+  <a href="#proviant" role="tab" data-tab="proviant">🛒 Proviant</a>
+  <a href="#regeln" role="tab" data-tab="regeln">📜 Regeln</a>
+  <a href="#kontakt" role="tab" data-tab="kontakt">✉️ Kontakt</a>
+</nav>
+
+<main>
+
+  <!-- ========== KARTE ========== -->
+  <section id="karte" class="panel active">
+    <div class="map-wrap">
+      <div id="map" aria-label="Interaktive Karte der Kanu-Routen"></div>
+      <div class="map-legend">
+        <strong>Legende</strong>
+        <ul>
+          <li><span class="lg camp"></span> Camp / Start</li>
+          <li><span class="lg rest"></span> Rastplatz</li>
+          <li><span class="lg portage"></span> Umtragestelle</li>
+          <li><span class="lg shop"></span> Supermarkt</li>
+          <li><span class="lg hospital"></span> Klinik</li>
+          <li><span class="lg excursion"></span> Ausflugsziel</li>
+          <li><span class="lg route1"></span> Fluss-Tour (50-80 km)</li>
+          <li><span class="lg route2"></span> Rund-Tour (70-90 km)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="disclaimer">⚠️ Streckenverlauf und Rastplatz-Positionen sind schematisch. Die offizielle scandtrack-Wasserwanderkarte ist an Bord maßgeblich.</p>
+
+    <article class="card gps-card">
+      <h3>📍 GPS Outdoorcamp</h3>
+      <p class="gps-display">N 59° 47.170' · E 14° 30.300'</p>
+      <p class="addr">Hällefors Vandrarhem & Kanotcenter<br>Saxhyttevägen 2 / Heikevägen 2 · 712 34 Hällefors</p>
+      <div class="btn-row">
+        <button class="btn" data-copy="59.78617, 14.505">Koordinaten kopieren</button>
+        <a class="btn" href="https://www.google.com/maps?q=59.78617,14.505" target="_blank" rel="noopener">Google Maps</a>
+        <a class="btn" href="https://www.openstreetmap.org/?mlat=59.78617&amp;mlon=14.505&amp;zoom=14" target="_blank" rel="noopener">OpenStreetMap</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>🛶 Die beiden Tour-Optionen</h3>
+      <div id="routes-info"></div>
+    </article>
+  </section>
+
+  <!-- ========== ANREISE ========== -->
+  <section id="anreise" class="panel">
+    <article class="card highlight">
+      <h3>⏰ Ankunftsfenster</h3>
+      <p class="big">09:15 – 09:45 Uhr · Mo 04.05.2026</p>
+      <p>Bei späterer Ankunft bitte unbedingt anrufen:</p>
+      <a class="btn btn-primary" href="tel:+46738125601">📞 Camp anrufen · +46 73 812 56 01</a>
+    </article>
+
+    <article class="card">
+      <h3>🚗 Anreise PKW & Fähre</h3>
+      <ol id="anreise-pkw"></ol>
+    </article>
+
+    <article class="card">
+      <h3>🚆 Eigenanreise</h3>
+      <ul id="anreise-eigen"></ul>
+    </article>
+
+    <article class="card">
+      <h3>🗓️ Anreisetag · 5 Schritte</h3>
+      <ol class="steps" id="anreisetag-steps"></ol>
+    </article>
+
+    <article class="card">
+      <h3>🚪 Abreisetag · 5 Schritte</h3>
+      <ol class="steps" id="abreisetag-steps"></ol>
+    </article>
+  </section>
+
+  <!-- ========== NOTFALL ========== -->
+  <section id="notfall" class="panel">
+    <article class="card critical">
+      <h3>🆘 Sofort-Notruf</h3>
+      <div class="emergency-buttons" id="emergency-main"></div>
+    </article>
+
+    <article class="card">
+      <h3>📞 Weitere Nummern</h3>
+      <ul class="contact-list" id="emergency-more"></ul>
+    </article>
+
+    <article class="card">
+      <h3>🏥 Kliniken & Ärztehäuser</h3>
+      <div id="kliniken-list"></div>
+    </article>
+
+    <article class="card">
+      <h3>🔥 Feuer & Waldbrand</h3>
+      <p>Du bist verpflichtet, dich selbstständig über bestehende <strong>Feuerverbote</strong> zu informieren. Bei Verbot: nur Campingkocher!</p>
+      <p><strong>Infotelefon Svartälven / Örebro län:</strong> <a href="tel:+46191899005">+46 19-18 99 05</a></p>
+    </article>
+
+    <article class="card">
+      <h3>ℹ️ Wichtig</h3>
+      <ul>
+        <li>Bei Unfall / Notfall <strong>zuerst</strong> die örtlichen Rettungskräfte (112) rufen.</li>
+        <li>Danach das Camp informieren.</li>
+        <li>Scandtrack übernimmt keine Krankentransporte.</li>
+        <li>Wasserwanderkarte bereithalten, um Aufenthaltsort genau angeben zu können.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ========== PACKLISTE ========== -->
+  <section id="packliste" class="panel">
+    <article class="card">
+      <h3 id="packliste-title">🎒 Packliste</h3>
+      <p class="muted" id="packliste-note"></p>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" id="pack-fill"></div></div>
+        <span class="progress-text" id="pack-count">0 / 0 erledigt</span>
+        <button class="btn btn-ghost" id="pack-reset">Zurücksetzen</button>
+      </div>
+      <div id="packliste-groups"></div>
+    </article>
+  </section>
+
+  <!-- ========== PROVIANT ========== -->
+  <section id="proviant" class="panel">
+    <article class="card">
+      <h3 id="proviant-title">🛒 Proviant-Einkaufsliste</h3>
+      <p class="muted" id="proviant-note"></p>
+      <label class="scale">
+        Skalieren auf:
+        <select id="proviant-scale">
+          <option value="1">1 Person · 5 Tage</option>
+          <option value="2" selected>2 Personen · 5 Tage</option>
+          <option value="3">3 Personen · 5 Tage</option>
+          <option value="4">4 Personen · 5 Tage</option>
+        </select>
+      </label>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" id="prov-fill"></div></div>
+        <span class="progress-text" id="prov-count">0 / 0 erledigt</span>
+        <button class="btn btn-ghost" id="prov-reset">Zurücksetzen</button>
+      </div>
+      <div id="proviant-groups"></div>
+
+      <div class="tip">
+        💡 <strong>Pekås-Supermarkt</strong> (800 m vom Camp, tägl. 08-22 Uhr) ist der Hauptweg.
+        In Hällefors auch <strong>ICA</strong> und <strong>COOP</strong>. Tipp: diverse Käse- und
+        Fischvariationen in der Tube sind eine schwedische Spezialität!
+      </div>
+    </article>
+  </section>
+
+  <!-- ========== REGELN ========== -->
+  <section id="regeln" class="panel">
+    <article class="card">
+      <h3>🌿 Jedermannsrecht — die wichtigsten Regeln</h3>
+      <p class="motto">„Nicht stören – nicht zerstören!"</p>
+      <div class="two-col">
+        <div class="col-do">
+          <h4>✅ Erlaubt</h4>
+          <ul>
+            <li>Privates Gelände und Wege betreten (nicht Hausgrundstücke / Anbauflächen)</li>
+            <li>Alle Seen/Flüsse befahren (außer ausgeschildert)</li>
+            <li>Blumen, Beeren, Pilze sammeln (wildwachsend)</li>
+            <li>Überall baden (außer Privatgrundstücken)</li>
+            <li>1 Tag in angemessener Entfernung zelten (bis 4 Personen)</li>
+            <li>Kleines Feuer in offizieller Feuerstelle — nur ohne Verbot</li>
+          </ul>
+        </div>
+        <div class="col-dont">
+          <h4>❌ Nicht erlaubt</h4>
+          <ul>
+            <li>Bäume/Büsche fällen oder beschädigen (auch umgestürzte!)</li>
+            <li>Äcker betreten, Zweige brechen, Rinde abschälen</li>
+            <li>Vogelnester/Eier berühren, Vogelschutzinseln betreten</li>
+            <li>Abfall liegen lassen — alles mitnehmen!</li>
+            <li>Ohne Angelkarte angeln / ohne Jagdschein jagen</li>
+            <li>Gruppen ab 5 Personen ohne Erlaubnis zelten</li>
+            <li>An Privatstegen anlegen</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>🔥 Feuer-Regeln</h3>
+      <ul>
+        <li>Nur kleine Kochfeuer in angelegten Feuerstellen</li>
+        <li>Kein Feuer auf Felsen</li>
+        <li>Nur bereitgelegtes Feuerholz verwenden</li>
+        <li>Keine lebenden Bäume/Sträucher beschädigen</li>
+        <li>Feuerholz nicht für Schutzhütten missbrauchen</li>
+        <li>Bei Feuerverbot: nur Campingkocher!</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>💧 Hygiene in der Natur</h3>
+      <ul>
+        <li>Nur <strong>biologisch abbaubare Bioseife</strong> verwenden</li>
+        <li>Nie direkt im Wasser waschen — Wasser an Land schöpfen, dort waschen</li>
+        <li>Keine Deos / Haarsprays</li>
+        <li>Nicht direkt nach Sonnencreme/Mückenschutz ins Wasser</li>
+        <li>Trinkwasser immer abkochen / filtern (Grayl empfohlen)</li>
+        <li>Trockentoiletten auf Rastplätzen benutzen — niemals Müll hineinwerfen!</li>
+        <li>Toilettenpapier niemals in der Natur liegen lassen</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>🎣 Angeln</h3>
+      <p>Kein Angelschein wie in Deutschland nötig — aber eine gültige <strong>Angelkarte (Fiskekort)</strong>:</p>
+      <ul>
+        <li>Einzelkarte: <strong>200 SEK / Woche</strong></li>
+        <li>Familienkarte: <strong>300 SEK / Woche</strong></li>
+        <li>Erwerb direkt im Outdoorcamp an der Rezeption</li>
+        <li>Angelausrüstung selbst mitbringen (oder vorab reservieren)</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>⚠️ Warnhinweis Klippenspringen</h3>
+      <p>Nicht ins unbekannte Wasser springen! Wasserpegel schwanken — eine 3 m tiefe Stelle im Frühjahr kann im Sommer nur noch 1,5 m tief sein. Unter Wasser unzählige Felsen und Steine.</p>
+    </article>
+
+    <article class="card">
+      <h3>🦆 Sonstiges</h3>
+      <ul>
+        <li>Max. 1 Nacht pro Rastplatz — täglich weiterziehen</li>
+        <li>Keine Musik ohne Kopfhörer (stört Tiere & Menschen)</li>
+        <li>Keine Machten / großen Messer — Taschenmesser, Äxte, Sägen OK</li>
+        <li>Brütende Vögel nicht stören</li>
+        <li>Sparsam mit Feuerholz umgehen · keine ganzen Stämme</li>
+        <li>Zuwiderhandlungen → hohe Strafen, vorzeitige Abreise auf eigene Kosten</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ========== KONTAKT ========== -->
+  <section id="kontakt" class="panel">
+    <article class="card">
+      <h3>✉️ Scandtrack vor der Reise</h3>
+      <p>Büro Hohen Neuendorf · Mo-Fr 08:00 – 16:00 Uhr</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="tel:+4933032973111">📞 +49 3303 29 73 111</a>
+        <a class="btn" href="mailto:info@scandtrack.de">✉️ info@scandtrack.de</a>
+      </div>
+      <p class="addr">Sperberstr. 25 · D-16556 Hohen Neuendorf OT Borgsdorf</p>
+    </article>
+
+    <article class="card">
+      <h3>🏕️ Campteam während der Reise</h3>
+      <p>Mo-So 08:00 – 17:00 Uhr für organisatorische Fragen · <strong>24 h bei Notfällen</strong></p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="tel:+46738125601">📞 +46 73 812 56 01</a>
+      </div>
+      <p class="addr">c/o Hällefors Vandrarhem & Kanotcenter<br>Saxhyttevägen 2 · S-712 34 Hällefors</p>
+    </article>
+
+    <article class="card">
+      <h3>🔐 Online Check-in</h3>
+      <p>Pflicht vor der Einreise — bis spätestens 2 Tage vor Reisebeginn.</p>
+      <ul>
+        <li>Link: <a href="https://www.scandtrack.com/checkin" target="_blank" rel="noopener">scandtrack.com/checkin</a></li>
+        <li>Buchungsnummer: <strong>B43726</strong></li>
+        <li>Reisecode: <strong>46-704-5</strong></li>
+        <li>E-Mail: <strong>andypfund@icloud.com</strong></li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>📅 Buchungsübersicht</h3>
+      <table class="info-table" id="trip-overview"></table>
+    </article>
+
+    <article class="card">
+      <h3>🏆 Gewinnspiel</h3>
+      <p>Reisebericht (min. 600 Wörter + 10 Bilder) oder Video (min. 3 Min.) einreichen und eine Kanutour + weitere Preise gewinnen!</p>
+      <p>Zugangscode: <strong>B43726</strong></p>
+      <a class="btn" href="https://www.scandtrack.com/reisebericht" target="_blank" rel="noopener">Zum Gewinnspiel</a>
+    </article>
+  </section>
+
+</main>
+
+<aside class="emergency-bar" aria-label="Schnell-Notruf">
+  <a href="tel:112" class="eb-btn eb-critical">112</a>
+  <a href="tel:+46738125601" class="eb-btn">Camp</a>
+  <a href="tel:+4672429 1607" class="eb-btn">Taxi</a>
+</aside>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="footer">
+  <p>Zusammengestellt aus den Scandtrack-Reiseunterlagen B43726. Offline-tauglich · keine Datenübertragung an Dritte.</p>
+  <p>Kartendaten © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende · Visualisierung © <a href="https://opentopomap.org" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA)</p>
+</footer>
+
+<!-- Leaflet lokal -->
+<script src="assets/leaflet/leaflet.js"></script>
+
+<!-- Daten -->
+<script src="data/trip.js"></script>
+<script src="data/contacts.js"></script>
+<script src="data/pois.js"></script>
+<script src="data/routes.js"></script>
+<script src="data/checklists.js"></script>
+<script src="data/arrival.js"></script>
+
+<!-- App -->
+<script src="map.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

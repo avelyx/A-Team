@@ -1,0 +1,26 @@
+{
+  "name": "Svartälven Kanutour · B43726",
+  "short_name": "Svartälven",
+  "description": "Offline-Begleiter für die Kanutour auf dem Svartälven, Schweden",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f1e8",
+  "theme_color": "#0d3a5c",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
