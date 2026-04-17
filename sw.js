@@ -1,5 +1,5 @@
 /* Service Worker — Offline-Cache für Shell + gelesene Tiles */
-const CACHE = 'svartalven-b43726-v4';
+const CACHE = 'svartalven-b43726-v5';
 const SHELL = [
   './',
   './index.html',

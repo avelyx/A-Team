@@ -67,9 +67,17 @@ window.POIS = [
     id: 'tourstart',
     type: 'start',
     name: '🏁 Tourstart (Transfer)',
-    coords: [60.04271, 14.27002],
-    popup: '<strong>🏁 Tourstart · Tag 1</strong><br>Hierher wirst du vom Team per Transfer gebracht.<br>Ab hier geht es flussabwärts ca. 60 km bis zurück zum Outdoorcamp Hällefors.',
+    coords: [60.23061, 14.14908],
+    popup: '<strong>🏁 Tourstart Fluss-Tour · Tag 1</strong><br>Ausgangspunkt nach Transfer (Tyfors-Region). Ab hier flussabwärts ca. 50–80 km zurück zum Outdoorcamp Hällefors.',
     icon: '🏁',
+  },
+  {
+    id: 'tyfors-village',
+    type: 'city',
+    name: 'Tyfors',
+    coords: [60.1475, 14.3600],
+    popup: '<strong>Tyfors</strong><br>Dorf in Dalarna · nahe dem Tourstart der Fluss-Tour',
+    icon: '🏘️',
   },
 
   // ==== Rastplätze entlang des Svartälven (schematisch, von Nord nach Süd) ====
