@@ -64,12 +64,12 @@ window.POIS = [
 
   // ==== Start Bergslagen-Fluss-Tour ====
   {
-    id: 'tyfors',
+    id: 'tourstart',
     type: 'start',
-    name: 'Tyfors (Tourstart nach Transfer)',
-    coords: [60.1475, 14.3600],
-    popup: '<strong>Tyfors</strong><br>Startpunkt Bergslagen-Fluss-Tour<br>Transfer vom Camp Hällefors hierher, dann Paddeln flussabwärts.',
-    icon: '🚐',
+    name: '🏁 Tourstart (Transfer)',
+    coords: [60.04271, 14.27002],
+    popup: '<strong>🏁 Tourstart · Tag 1</strong><br>Hierher wirst du vom Team per Transfer gebracht.<br>Ab hier geht es flussabwärts ca. 60 km bis zurück zum Outdoorcamp Hällefors.',
+    icon: '🏁',
   },
 
   // ==== Rastplätze entlang des Svartälven (schematisch, von Nord nach Süd) ====

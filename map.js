@@ -6,14 +6,14 @@ window.SvartalvenMap = (function () {
   let map;
   let layers = {
     camp: null,
+    start: null,
     rest: null,
     portage: null,
     shop: null,
     hospital: null,
     excursion: null,
     cities: null,
-    route1: null,
-    route2: null,
+    route: null,
   };
 
   function makeIcon(type, emoji) {
@@ -63,7 +63,7 @@ window.SvartalvenMap = (function () {
 
     // --- POI Layers (Feature Groups) ---
     Object.keys(layers).forEach(function (k) {
-      if (k.startsWith('route')) return;
+      if (k === 'route') return;
       layers[k] = L.featureGroup();
     });
 
@@ -72,68 +72,78 @@ window.SvartalvenMap = (function () {
       marker.bindPopup(p.popup, { maxWidth: 260 });
       const lyrKey =
         p.type === 'camp'       ? 'camp' :
+        p.type === 'start'      ? 'start' :
         p.type === 'rest'       ? 'rest' :
         p.type === 'portage'    ? 'portage' :
         p.type === 'shop'       ? 'shop' :
         p.type === 'hospital'   ? 'hospital' :
         p.type === 'excursion'  ? 'excursion' :
-        p.type === 'city'       ? 'cities' :
-        p.type === 'start'      ? 'cities' : null;
+        p.type === 'city'       ? 'cities' : null;
       if (lyrKey && layers[lyrKey]) layers[lyrKey].addLayer(marker);
     });
 
     // Default-sichtbare Layer
     layers.camp.addTo(map);
+    layers.start.addTo(map);
     layers.rest.addTo(map);
     layers.portage.addTo(map);
     layers.shop.addTo(map);
     layers.hospital.addTo(map);
     layers.excursion.addTo(map);
-    layers.cities.addTo(map);
 
-    // --- Routes ---
-    (window.ROUTES || []).forEach(function (r, idx) {
-      const line = L.polyline(r.waypoints, {
-        color: r.color,
-        weight: r.weight || 4,
-        opacity: 0.85,
-        dashArray: idx === 1 ? '8,6' : null,
+    // --- Route (einzelne Paddelroute) ---
+    const route = (window.ROUTES || [])[0];
+    if (route) {
+      const line = L.polyline(route.waypoints, {
+        color: route.color,
+        weight: route.weight || 5,
+        opacity: 0.9,
       });
       line.bindPopup(
-        '<strong>' + r.name + '</strong><br>' +
-        r.km[0] + '-' + r.km[1] + ' km · ' + r.start + ' → ' + r.ende + '<br>' +
-        '<p style="margin:.4rem 0 0 0; font-size:.9em">' + r.description + '</p>'
+        '<strong>🛶 ' + route.name + '</strong><br>' +
+        route.km[0] + '-' + route.km[1] + ' km · ' + route.start + ' → ' + route.ende +
+        '<p style="margin:.4rem 0 0 0; font-size:.9em">' + route.description + '</p>'
       );
-      const key = idx === 0 ? 'route1' : 'route2';
-      layers[key] = L.featureGroup([line]);
-      layers[key].addTo(map);
-    });
+      layers.route = L.featureGroup([line]);
+      layers.route.addTo(map);
+
+      // Pfeile entlang der Route — Richtungsanzeige per decorations
+      const n = route.waypoints.length;
+      for (let i = Math.floor(n/6); i < n; i += Math.floor(n/6)) {
+        const p1 = route.waypoints[i-1], p2 = route.waypoints[i];
+        const angle = Math.atan2(p2[1]-p1[1], p2[0]-p1[0]) * 180 / Math.PI;
+        const arrow = L.marker(p2, {
+          icon: L.divIcon({
+            className: 'route-arrow',
+            html: '<div style="transform: rotate(' + (90 - angle) + 'deg); color: #1e6fbf; font-size: 20px; font-weight: 900; text-shadow: 0 0 3px #fff;">▶</div>',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+          }),
+          interactive: false,
+        });
+        layers.route.addLayer(arrow);
+      }
+    }
 
     // --- Layer Control ---
     L.control.layers(
       { 'Topographisch (OpenTopoMap)': topo, 'Straßenkarte (OSM)': osm },
       {
-        '⛺ Camp': layers.camp,
+        '🏁 Start': layers.start,
+        '⛺ Ziel / Camp': layers.camp,
+        '🛶 Paddelroute': layers.route,
         '🔥 Rastplätze': layers.rest,
         '🪃 Umtragestellen': layers.portage,
         '🛒 Supermärkte': layers.shop,
         '🏥 Kliniken': layers.hospital,
         '🥾 Ausflugsziele': layers.excursion,
-        '🏙️ Orte': layers.cities,
-        '🛶 Fluss-Tour': layers.route1,
-        '🔄 Rund-Tour': layers.route2,
       },
       { collapsed: false, position: 'topright' }
     ).addTo(map);
 
-    // Fit map to show both routes + camp
-    const allRoutes = [];
-    if (layers.route1) allRoutes.push(layers.route1.getBounds());
-    if (layers.route2) allRoutes.push(layers.route2.getBounds());
-    if (allRoutes.length) {
-      let b = allRoutes[0];
-      for (let i = 1; i < allRoutes.length; i++) b = b.extend(allRoutes[i]);
-      map.fitBounds(b, { padding: [20, 20] });
+    // Fit map on route
+    if (layers.route) {
+      map.fitBounds(layers.route.getBounds(), { padding: [30, 30] });
     }
 
     return map;
